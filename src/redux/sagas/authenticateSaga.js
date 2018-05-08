@@ -30,7 +30,7 @@ export function * signIn ({payload}) {
     try {
         const auth = firebase.auth();
         const { email, password } = payload;
-        const { _user: user } = yield call([auth, 'signInWithEmailAndPassword'], email, password);
+        const { _user: user } = yield call([auth, 'signInAndRetrieveDataWithEmailAndPassword'], email, password);
         yield put(signInSuccess(user));
         yield put(push('App'));
     } catch (error) {
