@@ -1,11 +1,11 @@
-import MainScreen from './MainScreen';
 import { connect } from 'react-redux';
-import { signOutRequest } from '../../redux/actions/entities/authenticateActions';
+import { getPositionState } from '../../redux/selectors/entities/positionSelectors';
+import MainScreen from './MainScreen';
 
-function mapDispatchToProps (dispatch) {
+function mapStateToProps (state) {
     return {
-        signOut: () => dispatch(signOutRequest())
+        position: getPositionState(state)
     }
 }
 
-export default connect(null, mapDispatchToProps)(MainScreen);
+export default connect(mapStateToProps)(MainScreen);

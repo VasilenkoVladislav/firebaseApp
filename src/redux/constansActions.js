@@ -1,8 +1,3 @@
-// registration
-export const REGISTRATION_REQUEST = 'REGISTRATION_REQUEST';
-export const REGISTRATION_SUCCESS = 'REGISTRATION_SUCCESS';
-export const REGISTRATION_ERROR = 'REGISTRATION_ERROR';
-
 // authenticate
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
@@ -14,5 +9,5 @@ export const SIGN_OUT_ERROR = 'SIGN_OUT_ERROR';
 // syncUser
 export const SYNC_USER = 'SYNC_USER';
 
-// oAuthenticate
-export const OAUTHENTICATE_REQUEST = 'OAUTHENTICATE_REQUEST';
+// position
+export const UPDATE_POSITION = 'UPDATE_POSITION';

@@ -1,6 +1,13 @@
 import { connect } from 'react-redux';
+import { getUserIsLoadingState } from '../../redux/selectors/entities/userSelectors';
 import SignInScreen from './SignInScreen';
 import { signInRequest } from '../../redux/actions/entities/authenticateActions';
+
+function mapStateToProps (state) {
+    return {
+        isLoading: getUserIsLoadingState(state)
+    }
+}
 
 function mapDispatchToProps (dispatch) {
     return {
@@ -8,4 +15,4 @@ function mapDispatchToProps (dispatch) {
     }
 }
 
-export default connect(null, mapDispatchToProps)(SignInScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);

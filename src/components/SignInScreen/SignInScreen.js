@@ -6,6 +6,7 @@ import { styles } from './styles';
 import PropTypes from 'prop-types';
 
 const propTypes = {
+    isLoading: PropTypes.bool.isRequired,
     signIn: PropTypes.func.isRequired
 };
 
@@ -19,6 +20,7 @@ class SignInScreen extends PureComponent {
             passwordValid: true
         };
     }
+
     handleClickSignIn = () => {
         const { signIn } = this.props;
         const { email, password } = this.state;
@@ -38,15 +40,19 @@ class SignInScreen extends PureComponent {
             this.setState({ email: '', password: '' });
         }
     };
+
     handleOnChangeTextEmail = (email) => {
         this.setState({ email });
     };
+
     handleOnChangeTextPassword = (password) => {
         this.setState({ password });
     };
+
     handleOnSubmitEditingEmail = () => {
         this.passwordInput.focus();
     };
+
     handleOnSubmitEditingPassword = () => {
         this.handleClickSignIn();
     };
