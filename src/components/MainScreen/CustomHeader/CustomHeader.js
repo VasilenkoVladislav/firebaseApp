@@ -18,8 +18,11 @@ class CustomHeader extends PureComponent {
         this.watchPosition();
     }
 
+    componentWillUnmount() {
+        navigator.geolocation.clearWatch(this.watchId);
+    }
+
     watchPosition = () => {
-        console.log(firebaseService.currentUser);
         if (this.watchId) {
             this.watchId = navigator.geolocation.clearWatch(this.watchId);
         }
@@ -33,16 +36,12 @@ class CustomHeader extends PureComponent {
                     latitudeDelta: 0,
                     longitudeDelta: 0
                 };
-                firebaseService.updatePosition('Vladislav', lastRegion);
+                firebaseService.updatePosition(firebaseService.currentUser.uid, lastRegion);
             },
             (error) => console.log(error),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
     };
-
-    componentWillUnmount() {
-        navigator.geolocation.clearWatch(this.watchId);
-    }
 
     render () {
         const { signOut } = this.props;

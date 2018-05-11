@@ -10,14 +10,9 @@ class FirebaseService {
     subscribeDb () {
         this.db = firebase.app();
         this.rootRef = this.db.database().ref();
-        this.positionRef = this.rootRef.child('Position');
+        this.positionRef = this.rootRef.child('position');
         this.positionRef.on('value', (childSnapshot) => {
-            const result = Object.keys(childSnapshot._value).map((key) => {
-                return {
-                    name: key,
-                    coords: childSnapshot._value[key]
-                }
-            });
+            const result = Object.keys(childSnapshot._value).map((key) => childSnapshot._value[key]);
             this.dispatch(updatePosition(result));
         })
     }
@@ -28,25 +23,33 @@ class FirebaseService {
         }
     }
 
-    signIn = ({email, password}) => {
-        this.subscribeDb();
-        return firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, password);
+    signIn = async ({email, password}) => {
+        const { user } =  await firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, password);
+        if (user) {
+            this.subscribeDb();
+        }
+        return { user };
     };
 
-    signOut = () => {
+    signOut = async () => {
         this.unsubscribeDb();
-        return firebase.auth().signOut();
+        return await firebase.auth().signOut();
     };
 
-    updatePosition = (userName, position) => {
-        this.positionRef.child(userName).update(position);
+    updatePosition = (uid, coords) => {
+        this.positionRef.child(uid).update({coords});
     };
 
     onAuthStateChanged = (successCallback, errorCallback) => {
         return firebase.auth().onAuthStateChanged(
             (user) => {
-                successCallback(user);
-                this.subscribeDb();
+                if (user) {
+                    successCallback(user);
+                    this.subscribeDb();
+                } else {
+                    errorCallback('Not found current user!');
+                    this.unsubscribeDb();
+                }
             },
             (error) => {
                 errorCallback(error);
