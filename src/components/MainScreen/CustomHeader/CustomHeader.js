@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, PermissionsAndroid } from 'react-native';
 import { Icon } from 'react-native-elements';
 import React, { PureComponent } from 'react';
 import { firebaseService } from '../../../services/firebaseService';
@@ -14,9 +14,20 @@ class CustomHeader extends PureComponent {
         super(props);
     }
 
-    componentDidMount() {
+    componentDidMount = async () => {
+        try {
+            await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                {
+                    'title': 'Where are You? App Geolocation Permission',
+                    'message': 'Where are You? App needs access to your geolocation'
+                }
+            );
+        } catch (err) {
+            // empty
+        }
         this.watchPosition();
-    }
+    };
 
     componentWillUnmount() {
         navigator.geolocation.clearWatch(this.watchId);
