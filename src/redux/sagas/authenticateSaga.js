@@ -3,7 +3,7 @@ import { signInSuccess, signInError, signOutSuccess, signOutError } from '../act
 import { SIGN_IN_REQUEST, SIGN_OUT_REQUEST, SYNC_USER } from '../constansActions';
 import { Alert } from 'react-native';
 import { eventChannel } from 'redux-saga'
-import firebase from 'react-native-firebase';
+import { firebaseService } from '../../services/firebaseService';
 import { push } from '../actions/nav';
 
 export function * syncUser () {
@@ -11,8 +11,9 @@ export function * syncUser () {
         const channel = yield call(syncUserChannel);
         while (true) {
             const { user } = yield take(channel);
+            channel.close();
             if (user) {
-                yield put(signInSuccess(user));
+                yield put(signInSuccess());
                 yield put(push('App'));
             } else {
                 yield put(signInError());
@@ -28,11 +29,11 @@ export function * syncUser () {
 
 export function * signIn ({payload}) {
     try {
-        const auth = firebase.auth();
-        const { email, password } = payload;
-        const { _user: user } = yield call([auth, 'signInAndRetrieveDataWithEmailAndPassword'], email, password);
-        yield put(signInSuccess(user));
-        yield put(push('App'));
+        const { user } = yield call(firebaseService.signIn, payload);
+        if (user) {
+            yield put(signInSuccess());
+            yield put(push('App'));
+        }
     } catch (error) {
         Alert.alert('Invalid login or password', error.message);
         yield put(signInError());
@@ -42,8 +43,7 @@ export function * signIn ({payload}) {
 
 export function * signOut () {
     try {
-        const auth = firebase.auth();
-        yield call([auth, 'signOut']);
+        yield call(firebaseService.signOut);
         yield put(push('Auth'));
         yield put(signOutSuccess());
     } catch (error) {
@@ -55,9 +55,8 @@ function syncUserChannel () {
     if (this._authChannel) {
         return this._authChannel;
     }
-    const auth = firebase.auth();
     const channel = eventChannel(emit => {
-        return auth.onAuthStateChanged(
+        return firebaseService.onAuthStateChanged(
             user => emit({ user }),
             error => emit({ error })
         );

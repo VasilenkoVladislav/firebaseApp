@@ -3,10 +3,10 @@ import App from './src/components/App';
 import configureStore from './src/redux/configureStore';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { firebaseDatabaseService } from './src/services/firebaseDatabaseService';
+import { firebaseService } from './src/services/firebaseService';
 
 const { store } = configureStore();
-firebaseDatabaseService.initialize(store);
+firebaseService.initialize(store);
 
 const EntryPoint = () => (
     <Provider store={store}>

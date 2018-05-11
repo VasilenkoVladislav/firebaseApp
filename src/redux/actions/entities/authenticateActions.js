@@ -14,8 +14,8 @@ export function signInRequest (email, password) {
     return { type: SIGN_IN_REQUEST, payload: {email, password} };
 }
 
-export function signInSuccess (data) {
-    return { type: SIGN_IN_SUCCESS, payload: data };
+export function signInSuccess () {
+    return { type: SIGN_IN_SUCCESS };
 }
 
 export function signInError () {
