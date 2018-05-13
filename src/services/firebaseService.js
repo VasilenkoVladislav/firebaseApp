@@ -12,7 +12,9 @@ class FirebaseService {
         this.rootRef = this.db.database().ref();
         this.positionRef = this.rootRef.child('position');
         this.positionRef.on('value', (childSnapshot) => {
-            const result = Object.keys(childSnapshot._value).map((key) => childSnapshot._value[key]);
+            const result = Object.keys(childSnapshot._value).map((key) => {
+                return { ...childSnapshot._value[key], id: key }
+            });
             this.dispatch(updatePosition(result));
         })
     }

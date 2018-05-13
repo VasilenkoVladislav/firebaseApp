@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
     input: {
-        color: 'white',
+        color: '#dedede',
         padding: 0
     },
     errorInput: {

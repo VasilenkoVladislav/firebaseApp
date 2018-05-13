@@ -82,12 +82,12 @@ class SignInScreen extends PureComponent {
                                         type='feather'
                                         name='user'
                                         size={17}
-                                        color='white'/>
+                                        color='#dedede'/>
                                 }
-                                inputContainerStyle={{borderColor: 'white'}}
+                                inputContainerStyle={{borderColor: '#dedede'}}
                                 ref={input => this.emailInput = input}
                                 inputStyle={styles.input}
-                                placeholderTextColor='white'
+                                placeholderTextColor='#dedede'
                                 leftIconContainerStyle={styles.leftIconInputContainer}
                                 keyboardAppearance='light'
                                 autoFocus={false}
@@ -108,12 +108,12 @@ class SignInScreen extends PureComponent {
                                         type='feather'
                                         name='lock'
                                         size={17}
-                                        color='white'/>
+                                        color='#dedede'/>
                                 }
-                                inputContainerStyle={{borderColor: 'white'}}
+                                inputContainerStyle={{borderColor: '#dedede'}}
                                 ref={input => this.passwordInput = input}
                                 inputStyle={styles.input}
-                                placeholderTextColor='white'
+                                placeholderTextColor='#dedede'
                                 leftIconContainerStyle={styles.leftIconInputContainer}
                                 keyboardAppearance='light'
                                 autoCapitalize='none'
